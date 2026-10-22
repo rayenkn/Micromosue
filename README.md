@@ -1,3 +1,4 @@
+> 🚧 **Status:** Work in Progress / Architectural Skeleton (Implementation in progress)
 ---
 
 # 🤖 High-Performance Autonomous Micromouse
