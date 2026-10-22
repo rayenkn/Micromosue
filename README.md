@@ -1,9 +1,10 @@
-> 🚧 **Status:** Work in Progress / Architectural Skeleton (Implementation in progress)
----
 
+```markdown
 # 🤖 High-Performance Autonomous Micromouse
 
-Firmware architecture for a high-speed, precision autonomous Micromouse maze-solving robot. Built using **PlatformIO** and modern embedded C++, this repository houses low-level hardware drivers, advanced motion control loops, and graph-based maze navigation algorithms.
+> 🚧 **Status:** Firmware Architecture Skeleton / Tooling Active (Implementation in progress)
+
+Firmware architecture and telemetry tooling for a high-speed, precision autonomous Micromouse maze-solving robot. Built using **PlatformIO** (C++) and complemented by a **Python real-time telemetry suite**, this repository establishes the foundational structure for low-level hardware drivers, motion control loops, and navigation algorithms.
 
 ---
 
@@ -30,71 +31,68 @@ Firmware architecture for a high-speed, precision autonomous Micromouse maze-sol
 │   ├── ICM42688.cpp
 │   ├── MotorController.cpp
 │   └── main.cpp           # Entry point and main loop execution
+├── plotter.py             # Real-time PyQtGraph serial telemetry plotting tool[cite: 2]
 └── platformio.ini         # Build configuration and dependencies
 
 ```
 
 ---
 
-## 🚀 Key Modules & Features
+## 🚀 Modules & Tooling Overview
 
-### 1. Control System (`include/Control/`)
+### 1. Telemetry & Tuning Tool (`plotter.py`)
 
-* **PID Controller (`PID.h`):** Robust closed-loop control loops implemented for precise velocity, heading, and distance tracking.
-* **Motion Profiler (`MotionProfiler.h`):** Trapezoidal/S-curve motion profiling for smooth acceleration, maximum cornering velocity, and deceleration management.
+* **Real-Time Visualization:** A high-performance Python script built with `pyqtgraph` and `pyserial` designed to stream and plot real-time control data.
 
-### 2. Hardware Drivers (`include/Drivers/`)
 
-* **Encoders (`EncoderPCNT.h`):** High-resolution hardware pulse counting (PCNT) for accurate odometry and position estimation.
-* **IMU Integration (`ICM42688.h/.cpp`):** Gyroscope and accelerometer data fusion for precise heading stabilization and drift correction during high-speed straights and turns.
-* **IR Sensor Array (`IRArray.h`):** Real-time front and diagonal wall detection for immediate reflex navigation and grid alignment.
-* **Motor Control (`MotorController.h/.cpp`):** PWM signal generation and directional switching interface for differential drive actuation.
+* **Packet Parsing:** Decodes binary serial telemetry packets (at `115200` baud) featuring robust header matching (`0xAA` to `0xAD`) and floating-point sanity checks to prevent resync errors.
 
-### 3. Navigation & Intelligence (`include/Navigation/`)
 
-* **Maze Representation (`Maze.h`):** Grid data structure mapping wall states, visited nodes, and exploration status.
-* **Path Planning (`AStarPlanner.h`):** Optimal path calculation algorithm used for navigating the shortest path from the start cell to the center once the maze has been mapped.
+* **Profile Comparison:** Plots target trapezoidal velocity profiles against actual measured wheel speeds for both left and right motors to assist in tuning PID controllers and motion profiling.
 
-### 4. Core Architecture (`include/Core/`)
 
-* **State Machine (`StateMachine.h`):** Manages robot states (e.g., *Standby, Searching, Speed Run, Calibration, Error*).
-* **Task Manager (`Tasks.h`):** Non-blocking execution scheduler ensuring deterministic timing for sensor polling, control updates, and logging.
+
+### 2. Planned Firmware Modules (`include/`)
+
+* **Control System (`include/Control/`):** Planned implementation of closed-loop PID feedback (`PID.h`) and trapezoidal/S-curve motion profiling (`MotionProfiler.h`).
+* **Hardware Drivers (`include/Drivers/`):** Scaffolding for high-resolution encoder pulse counting (`EncoderPCNT.h`), ICM42688 IMU sensor fusion (`ICM42688.h/.cpp`), infrared wall sensing (`IRArray.h`), and motor actuation (`MotorController.h/.cpp`).
+* **Navigation & Intelligence (`include/Navigation/`):** Grid-based maze representation (`Maze.h`) and shortest-path calculation (`AStarPlanner.h`).
+* **Core Architecture (`include/Core/`):** Non-blocking task scheduling (`Tasks.h`) and state management (`StateMachine.h`).
 
 ---
 
-## 🛠️ Getting Started
+## 🛠️ Getting Started & Usage
 
 ### Prerequisites
 
-* [VS Code](https://code.visualstudio.com/) with the **PlatformIO IDE** extension installed.
-
-### Building & Flashing
-
-1. Clone the repository:
+* [VS Code](https://code.visualstudio.com/) with the **PlatformIO IDE** extension.
+* Python 3.x with required plotting dependencies for telemetry:
 ```bash
-git clone https://github.com/your-username/micromouse-firmware.git
+pip install pyserial pyqtgraph numpy
 
 ```
 
 
-2. Open the folder in VS Code / PlatformIO.
-3. Build the project:
+
+### Running the Telemetry Plotter
+
+1. Connect your microcontroller via USB.
+2. Update the `PORT` variable in `plotter.py` if necessary (defaults to `'COM3'`).
+
+
+3. Execute the script to launch the live plotting interface:
+
 ```bash
-pio run
+python plotter.py
 
 ```
-
-
-4. Upload firmware to your target board:
-```bash
-pio run --target upload
-
-```
-
-
 
 ---
 
 ## 📝 License
 
 This project is open-source and available under the [MIT License](https://www.google.com/search?q=LICENSE).
+
+```
+
+```
