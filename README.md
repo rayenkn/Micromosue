@@ -1,5 +1,3 @@
-Here is a professional, well-structured `README.md` template tailored for your Micromouse project repository, built directly from your project architecture and driver structure:
-
 ---
 
 # 🤖 High-Performance Autonomous Micromouse
